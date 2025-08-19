@@ -4,7 +4,7 @@ import React from 'react';
 import { Play, Music, Video, MessageCircle, BookOpen, Gamepad2, Users, Workflow, Brain, Settings } from 'lucide-react';
 
 // @ts-ignore;
-import { NavigationCard } from '@/components/NavigationCard';
+import { NavigationCard } from './components/NavigationCard';
 export default function IndexPage(props) {
   const {
     $w

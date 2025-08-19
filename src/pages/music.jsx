@@ -2,16 +2,17 @@
 import React, { useState } from 'react';
 // @ts-ignore;
 import { Play, Pause, SkipBack, SkipForward, Volume2, Heart, Search, ListMusic, Plus, Upload, X } from 'lucide-react';
-// @ts-ignore;
-import { Button, Card, CardContent } from '@/components/ui';
 
 // @ts-ignore;
-import { BackButton } from '@/components/BackButton';
-import { MusicPlayer } from '@/components/MusicPlayer';
-import { Playlist } from '@/components/Playlist';
-import { SearchBar } from '@/components/SearchBar';
-import { GenreFilter } from '@/components/GenreFilter';
-import { PlaylistManager } from '@/components/PlaylistManager';
+import { Button, Card, CardContent } from './components/ui';
+
+// @ts-ignore;
+import { BackButton } from './components/BackButton';
+import { MusicPlayer } from './components/MusicPlayer';
+import { Playlist } from './components/Playlist';
+import { SearchBar } from './components/SearchBar';
+import { GenreFilter } from './components/GenreFilter';
+import { PlaylistManager } from './components/PlaylistManager';
 export default function MusicPage(props) {
   const {
     $w

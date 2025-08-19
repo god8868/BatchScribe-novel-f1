@@ -2,16 +2,17 @@
 import React, { useState } from 'react';
 // @ts-ignore;
 import { Play, Heart, Search, Bookmark, Plus, Upload, MessageCircle, Filter } from 'lucide-react';
-// @ts-ignore;
-import { Button, Card, CardContent, Input } from '@/components/ui';
 
 // @ts-ignore;
-import { BackButton } from '@/components/BackButton';
-import { VideoPlayer } from '@/components/VideoPlayer';
-import { VideoList } from '@/components/VideoList';
-import { UploadModal } from '@/components/UploadModal';
-import { CommentSection } from '@/components/CommentSection';
-import { TagFilter } from '@/components/TagFilter';
+import { Button, Card, CardContent, Input } from './components/ui';
+
+// @ts-ignore;
+import { BackButton } from './components/BackButton';
+import { VideoPlayer } from './components/VideoPlayer';
+import { VideoList } from './components/VideoList';
+import { UploadModal } from './components/UploadModal';
+import { CommentSection } from './components/CommentSection';
+import { TagFilter } from './components/TagFilter';
 export default function VideoPage(props) {
   const {
     $w
