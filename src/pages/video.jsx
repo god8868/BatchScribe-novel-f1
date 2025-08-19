@@ -1,215 +1,237 @@
 // @ts-ignore;
 import React, { useState } from 'react';
 // @ts-ignore;
-import { Film, Play, Download, Share2, Heart, Sparkles, Clock, Users } from 'lucide-react';
+import { Play, Heart, Search, Bookmark, Plus, Upload, MessageCircle, Filter } from 'lucide-react';
 // @ts-ignore;
-import { Button, Card, CardContent, Textarea, Input, Badge } from '@/components/ui';
+import { Button, Card, CardContent, Input } from '@/components/ui';
 
-export default function VideoPage() {
-  const [prompt, setPrompt] = useState('创作一个关于未来城市的科幻短剧');
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedVideos, setGeneratedVideos] = useState([{
+// @ts-ignore;
+import { BackButton } from '@/components/BackButton';
+import { VideoPlayer } from '@/components/VideoPlayer';
+import { VideoList } from '@/components/VideoList';
+import { UploadModal } from '@/components/UploadModal';
+import { CommentSection } from '@/components/CommentSection';
+import { TagFilter } from '@/components/TagFilter';
+export default function VideoPage(props) {
+  const {
+    $w
+  } = props;
+  const navigateBack = $w.utils.navigateBack;
+  const [videos, setVideos] = useState([{
     id: 1,
-    title: '未来城市2049',
-    description: '在高度发达的未来城市中，人类与AI和谐共存的温馨故事',
-    duration: 180,
-    thumbnail: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400&h=225&fit=crop',
-    genre: '科幻',
+    title: 'AI艺术创作教程',
+    description: '学习如何使用AI工具创作令人惊叹的艺术作品',
+    thumbnail: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=225&fit=crop',
+    duration: 1800,
     views: 15420,
     likes: 892,
-    isLiked: false
+    tags: ['AI', '艺术', '教程', '创作'],
+    isLiked: true,
+    uploadDate: new Date('2024-01-15'),
+    channel: 'AI创意工作室',
+    channelAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop'
   }, {
     id: 2,
-    title: '时间旅行者',
-    description: '一个关于穿越时空拯救爱情的动人故事',
-    duration: 240,
-    thumbnail: 'https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=400&h=225&fit=crop',
-    genre: '爱情',
-    views: 12300,
-    likes: 756,
-    isLiked: true
+    title: '深度学习基础入门',
+    description: '从零开始学习深度学习的核心概念和实践方法',
+    thumbnail: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=225&fit=crop',
+    duration: 3600,
+    views: 8932,
+    likes: 567,
+    tags: ['深度学习', '教程', '编程', 'AI'],
+    isLiked: false,
+    uploadDate: new Date('2024-01-14'),
+    channel: '技术先锋',
+    channelAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop'
   }, {
     id: 3,
-    title: 'AI觉醒',
-    description: '当人工智能获得自我意识后的伦理思考',
-    duration: 300,
-    thumbnail: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=225&fit=crop',
-    genre: '剧情',
-    views: 8900,
-    likes: 543,
-    isLiked: false
+    title: 'AI音乐制作实战',
+    description: '探索AI如何改变音乐创作的未来',
+    thumbnail: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=225&fit=crop',
+    duration: 2400,
+    views: 12350,
+    likes: 1234,
+    tags: ['AI', '音乐', '创作', '实战'],
+    isLiked: true,
+    uploadDate: new Date('2024-01-13'),
+    channel: '音乐科技',
+    channelAvatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop'
+  }, {
+    id: 4,
+    title: '神经网络可视化',
+    description: '直观理解神经网络的工作原理',
+    thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=225&fit=crop',
+    duration: 2700,
+    views: 25670,
+    likes: 1890,
+    tags: ['神经网络', '可视化', 'AI', '科普'],
+    isLiked: false,
+    uploadDate: new Date('2024-01-12'),
+    channel: 'AI科普',
+    channelAvatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=40&h=40&fit=crop'
+  }, {
+    id: 5,
+    title: 'AI绘画技巧分享',
+    description: '专业AI绘画师的实用技巧和创作心得',
+    thumbnail: 'https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=400&h=225&fit=crop',
+    duration: 2100,
+    views: 34560,
+    likes: 2345,
+    tags: ['AI', '绘画', '技巧', '分享'],
+    isLiked: true,
+    uploadDate: new Date('2024-01-11'),
+    channel: '创意无限',
+    channelAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop'
+  }, {
+    id: 6,
+    title: '机器学习项目实战',
+    description: '完整的机器学习项目从数据到部署的全过程',
+    thumbnail: 'https://images.unsplash.com/photo-1677442135137-2ba2eeb1b6d1?w=400&h=225&fit=crop',
+    duration: 4200,
+    views: 18920,
+    likes: 1567,
+    tags: ['机器学习', '项目', '实战', '部署'],
+    isLiked: false,
+    uploadDate: new Date('2024-01-10'),
+    channel: '项目实战',
+    channelAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop'
   }]);
-  const genres = ['科幻', '爱情', '剧情', '喜剧', '悬疑', '动作', '动画', '纪录片'];
-  const durations = [60, 120, 180, 240, 300];
-  const handleGenerate = async () => {
-    if (!prompt.trim()) return;
-    setIsGenerating(true);
-    setTimeout(() => {
-      const newVideo = {
-        id: Date.now(),
-        title: `AI短剧 #${generatedVideos.length + 1}`,
-        description: prompt,
-        duration: durations[Math.floor(Math.random() * durations.length)],
-        thumbnail: `https://images.unsplash.com/photo-${Math.floor(Math.random() * 1000)}?w=400&h=225&fit=crop`,
-        genre: genres[Math.floor(Math.random() * genres.length)],
-        views: 0,
-        likes: 0,
-        isLiked: false
-      };
-      setGeneratedVideos(prev => [newVideo, ...prev]);
-      setIsGenerating(false);
-    }, 5000);
-  };
-  const toggleLike = id => {
-    setGeneratedVideos(prev => prev.map(video => video.id === id ? {
-      ...video,
-      isLiked: !video.isLiked,
-      likes: video.isLiked ? video.likes - 1 : video.likes + 1
-    } : video));
-  };
-  const formatDuration = seconds => {
+  const [currentVideo, setCurrentVideo] = useState(videos[0]);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [volume, setVolume] = useState(70);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTag, setSelectedTag] = useState('all');
+  const [likedVideos, setLikedVideos] = useState(videos.filter(v => v.isLiked).map(v => v.id));
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [comments, setComments] = useState([{
+    id: 1,
+    videoId: 1,
+    text: '这个教程太棒了！学到了很多',
+    author: '学习者小王',
+    authorAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop',
+    likes: 15,
+    dislikes: 0,
+    timestamp: new Date('2024-01-15'),
+    replies: []
+  }, {
+    id: 2,
+    videoId: 1,
+    text: '讲解很清晰，期待更多内容',
+    author: 'AI爱好者',
+    authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop',
+    likes: 8,
+    dislikes: 1,
+    timestamp: new Date('2024-01-14'),
+    replies: []
+  }]);
+  const allTags = [...new Set(videos.flatMap(v => v.tags))];
+  const filteredVideos = videos.filter(video => {
+    const matchesSearch = video.title.toLowerCase().includes(searchQuery.toLowerCase()) || video.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesTag = selectedTag === 'all' || video.tags.includes(selectedTag);
+    return matchesSearch && matchesTag;
+  });
+  const formatTime = seconds => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
-  return <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-900 dark:via-purple-900 dark:to-pink-900">
+  const formatViews = views => {
+    if (views >= 10000) {
+      return `${(views / 10000).toFixed(1)}万`;
+    }
+    return views.toString();
+  };
+  const formatDate = date => {
+    const now = new Date();
+    const diff = now - date;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    if (days === 0) return '今天';
+    if (days === 1) return '昨天';
+    if (days < 7) return `${days}天前`;
+    return date.toLocaleDateString('zh-CN');
+  };
+  const toggleLike = videoId => {
+    setLikedVideos(prev => prev.includes(videoId) ? prev.filter(id => id !== videoId) : [...prev, videoId]);
+  };
+  const handleUpload = videoData => {
+    const newVideo = {
+      id: Date.now(),
+      title: videoData.title,
+      description: videoData.description,
+      thumbnail: 'https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=400&h=225&fit=crop',
+      duration: 1800,
+      views: 0,
+      likes: 0,
+      tags: videoData.tags,
+      isLiked: false,
+      uploadDate: new Date(),
+      channel: '我的频道',
+      channelAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop'
+    };
+    setVideos([newVideo, ...videos]);
+  };
+  const addComment = comment => {
+    setComments([...comments, comment]);
+  };
+  const likeComment = commentId => {
+    setComments(comments.map(c => c.id === commentId ? {
+      ...c,
+      likes: c.likes + 1
+    } : c));
+  };
+  const dislikeComment = commentId => {
+    setComments(comments.map(c => c.id === commentId ? {
+      ...c,
+      dislikes: c.dislikes + 1
+    } : c));
+  };
+  const videoComments = comments.filter(c => c.videoId === currentVideo.id);
+  return <div className="min-h-screen bg-gradient-to-br from-red-900 via-purple-900 to-indigo-900">
       <div className="max-w-7xl mx-auto p-6">
+        <BackButton onClick={navigateBack} />
+        
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
-            AI短剧创作
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-red-400 to-purple-400 bg-clip-text text-transparent mb-2">
+            AI视频世界
           </h1>
-          <p className="text-slate-600 dark:text-slate-400">
-            创作精彩的视频故事，让想象变为现实
+          <p className="text-slate-300">
+            探索AI创作的精彩视频内容
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Creation Panel */}
-          <div className="lg:col-span-1">
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
-              <CardContent className="p-6 space-y-4">
-                <h3 className="text-lg font-semibold flex items-center">
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  创作设置
-                </h3>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">故事概念</label>
-                  <Textarea value={prompt} onChange={e => setPrompt(e.target.value)} placeholder="描述你想要创作的短剧..." className="min-h-[100px] bg-slate-50 dark:bg-slate-700" />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">类型</label>
-                  <select className="w-full p-2 rounded-md bg-slate-50 dark:bg-slate-700 border">
-                    {genres.map(g => <option key={g} value={g}>{g}</option>)}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">时长</label>
-                  <select className="w-full p-2 rounded-md bg-slate-50 dark:bg-slate-700 border">
-                    {durations.map(d => <option key={d} value={d}>{formatDuration(d)}</option>)}
-                  </select>
-                </div>
-
-                <Button onClick={handleGenerate} disabled={isGenerating} className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600">
-                  {isGenerating ? <>
-                      <Sparkles className="mr-2 h-4 w-4 animate-spin" />
-                      创作中...
-                    </> : <>
-                      <Film className="mr-2 h-4 w-4" />
-                      开始创作
-                    </>}
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Stats */}
-            <Card className="mt-6 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold mb-4">创作统计</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-sm text-slate-600 dark:text-slate-400">总作品数</span>
-                    <span className="font-semibold">24</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-slate-600 dark:text-slate-400">总播放量</span>
-                    <span className="font-semibold">156.8K</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-slate-600 dark:text-slate-400">获赞总数</span>
-                    <span className="font-semibold">8.2K</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+        {/* 控制栏 */}
+        <div className="mb-6 flex justify-between items-center">
+          <div className="flex gap-4">
+            <TagFilter tags={filteredVideos} selectedTag={selectedTag} onTagSelect={setSelectedTag} allTags={allTags} />
           </div>
-
-          {/* Video Gallery */}
-          <div className="lg:col-span-2">
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold mb-4">作品库</h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {generatedVideos.map(video => <Card key={video.id} className="group overflow-hidden">
-                      <CardContent className="p-0">
-                        <div className="relative">
-                          <img src={video.thumbnail} alt={video.title} className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105" />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <Button size="lg" className="rounded-full bg-white/20 backdrop-blur-sm">
-                                <Play size={24} className="text-white" />
-                              </Button>
-                            </div>
-                          </div>
-                          <div className="absolute top-2 right-2">
-                            <Badge variant="secondary" className="bg-black/50 text-white">
-                              {formatDuration(video.duration)}
-                            </Badge>
-                          </div>
-                        </div>
-                        
-                        <div className="p-4">
-                          <h4 className="font-semibold text-lg mb-1">{video.title}</h4>
-                          <p className="text-sm text-slate-600 dark:text-slate-400 mb-2 line-clamp-2">
-                            {video.description}
-                          </p>
-                          
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-4 text-sm text-slate-500">
-                              <span className="flex items-center">
-                                <Play size={14} className="mr-1" />
-                                {video.views.toLocaleString()}
-                              </span>
-                              <span className="flex items-center">
-                                <Heart size={14} className="mr-1" />
-                                {video.likes.toLocaleString()}
-                              </span>
-                            </div>
-                            
-                            <div className="flex space-x-2">
-                              <Button variant="ghost" size="sm" onClick={() => toggleLike(video.id)}>
-                                <Heart size={16} className={video.isLiked ? 'fill-red-500 text-red-500' : ''} />
-                              </Button>
-                              <Button variant="ghost" size="sm">
-                                <Download size={16} />
-                              </Button>
-                              <Button variant="ghost" size="sm">
-                                <Share2 size={16} />
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>)}
-                </div>
-              </CardContent>
-            </Card>
+          <div className="flex gap-2">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" size={20} />
+              <Input type="text" placeholder="搜索视频..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 bg-slate-800 border-slate-600 text-slate-100" />
+            </div>
+            <Button onClick={() => setShowUploadModal(true)} className="bg-red-500 hover:bg-red-600">
+              <Upload className="h-4 w-4 mr-2" />
+              上传视频
+            </Button>
           </div>
         </div>
+
+        {/* 主要内容区域 */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <VideoList videos={filteredVideos} onVideoSelect={setCurrentVideo} onLikeToggle={toggleLike} likedVideos={likedVideos} formatTime={formatTime} formatViews={formatViews} formatDate={formatDate} />
+          
+          <VideoPlayer video={currentVideo} isPlaying={isPlaying} currentTime={currentTime} volume={volume} onPlayToggle={() => setIsPlaying(!isPlaying)} onLikeToggle={toggleLike} likedVideos={likedVideos} formatTime={formatTime} formatViews={formatViews} formatDate={formatDate} />
+        </div>
+
+        {/* 评论区 */}
+        <div className="mt-6">
+          <CommentSection videoId={currentVideo.id} comments={videoComments} onAddComment={addComment} onLikeComment={likeComment} onDislikeComment={dislikeComment} />
+        </div>
+
+        {/* 上传模态框 */}
+        <UploadModal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)} onUpload={handleUpload} />
       </div>
     </div>;
 }
